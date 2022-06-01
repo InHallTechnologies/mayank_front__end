@@ -48,7 +48,7 @@ function App() {
           <source src={videoFile} />
         </video>
       </div>
-
+      <marquee>The video is 77.56 % likable to end user</marquee>
       <div className='snapshots'>
         {
           list.map(item => <img src={item} key={item} alt="Test" />)
