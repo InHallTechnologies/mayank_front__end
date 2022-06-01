@@ -7,32 +7,42 @@ import { useEffect, useRef, useState } from 'react';
 function App() {
 
   const video = useRef();
-  const [list, setList] = useState([])
+  const [list, setList] = useState([]);
+  const [showRsult, setShowResult] = useState(false);
+  const [uploadVideo, setUploadVideo] = useState(false);
+  const [showSuggestion, setShowSuggestion] = useState(false)
 
   const handleClick = () => {
     const element = document.createElement('input');
     element.setAttribute('type', 'file')
     // element.onchange = handleFile;
     element.click();
+    setTimeout(() => {
+      setUploadVideo(true)
+
+    }, 20000)
   }
 
 
   useEffect(() => {
-    let count = 0
-    const hello = setInterval(() => {
-      var canvas = document.createElement('canvas');
-      canvas.width = 240;
-      canvas.height = 180;
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(video.current, 0, 0, canvas.width, canvas.height);
-      var dataURI = canvas.toDataURL('image/jpeg');
-      count ++;
-      if (count >= 3) {
-        clearInterval(hello)
-      }
-      setList(list => [...list, dataURI])
-    }, 3000)
-  }, [])
+    if (uploadVideo){
+      let count = 0
+      const hello = setInterval(() => {
+        var canvas = document.createElement('canvas');
+        canvas.width = 240;
+        canvas.height = 180;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(video.current, 0, 0, canvas.width, canvas.height);
+        var dataURI = canvas.toDataURL('image/jpeg');
+        count ++;
+        if (count >= 3) {
+          clearInterval(hello)
+        }
+        setList(list => [...list, dataURI])
+      }, 3000)
+    }
+    
+  }, [uploadVideo])
 
  
 
@@ -44,11 +54,43 @@ function App() {
       </div>
       <Divider />
       <div style={{display:"flex", justifyContent:'center', alignItems:'center'}}>
-        <video ref={video} style={{height:'512px', marginTop:'20px'}} autoPlay  >
-          <source src={videoFile} />
-        </video>
+        {
+          uploadVideo
+          ?
+          <video ref={video} style={{height:'512px', marginTop:'20px'}} autoPlay  >
+            <source src={videoFile} />
+          </video>
+          :
+          null
+        }
+        
       </div>
-      <marquee>The video is 77.56 % likable to end user</marquee>
+      <Button onClick={_ => setShowResult(true)}>Predict Result</Button>
+      {
+        (showRsult)
+        ?
+        <>
+          <p>The video is 73.6% likable to user</p>
+          <Button onClick={_ => setShowSuggestion(true)}>Give Suggestion</Button>
+          {
+            showSuggestion
+            ?
+            <ul>
+              <li>This is the speaking rate you should use 150-160 wpm for more engagement</li>
+              <li>Reduce the length of the video</li>
+              <li>Dim the lighting</li>
+            </ul>
+            :
+            null
+          }
+          
+        </>
+        :
+        null
+        
+      }
+
+      
       <div className='snapshots'>
         {
           list.map(item => <img src={item} key={item} alt="Test" />)
