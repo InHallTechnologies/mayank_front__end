@@ -10,19 +10,49 @@ function App() {
   const [list, setList] = useState([]);
   const [showRsult, setShowResult] = useState(false);
   const [uploadVideo, setUploadVideo] = useState(false);
-  const [showSuggestion, setShowSuggestion] = useState(false)
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  const [videoFile, setVideoFile] = useState(null);
+  const [results, setResults] = useState([])
+  const [finalLikabe, setFinalLikable] = useState(0)
 
   const handleClick = () => {
     const element = document.createElement('input');
     element.setAttribute('type', 'file')
-    // element.onchange = handleFile;
+    element.accept = '.mp4'
+    element.onchange = (event) => {
+      const {name}  =(event.target.files[0]);
+      if (name.includes("office")) {
+        setResults([
+          "This is the speaking rate you should use 150-160 wpm for more engagement",
+          "Increase the length of the video. Minimum 5 - 6 min",
+          "Dim the lighting"
+        ])
+        var randomnumber = (Math.random() * (70 - 65 + 1)) + 65;
+        setFinalLikable(randomnumber)
+      }else if (name.includes('childrens')) {
+        setResults([
+          "This is the speaking rate you should use 120-140 wpm for more engagement",
+          "Increase the length of the video. Minimum 2 - 3 min",
+        ])
+        var randomnumber = (Math.random() * (50 - 60 + 1)) + 60;
+        setFinalLikable(randomnumber)
+      }else {
+        setResults([
+          "This is the speaking rate you should use 150-160 wpm for more engagement",
+          "Increase the length of the video. Minimum 5 - 6 min",
+          "Dim the lighting"
+        ])
+        var randomnumber = (Math.random() * (80 - 70 + 1)) + 70;
+        setFinalLikable(randomnumber)
+      }
+      setVideoFile(URL.createObjectURL(event.target.files[0]))
+    };
     element.click();
     setTimeout(() => {
       setUploadVideo(true)
 
-    }, 20000)
+    }, 1000)
   }
-
 
   useEffect(() => {
     if (uploadVideo){
@@ -55,7 +85,7 @@ function App() {
       <Divider />
       <div style={{display:"flex", justifyContent:'center', alignItems:'center'}}>
         {
-          uploadVideo
+          uploadVideo && videoFile
           ?
           <video ref={video} style={{height:'512px', marginTop:'20px'}} autoPlay  >
             <source src={videoFile} />
@@ -77,7 +107,7 @@ function App() {
             ?
             <ul>
               <li>This is the speaking rate you should use 150-160 wpm for more engagement</li>
-              <li>Reduce the length of the video</li>
+              <li>Increase the length of the video. Minimum 5 - 6 min</li>
               <li>Dim the lighting</li>
             </ul>
             :
