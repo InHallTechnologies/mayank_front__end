@@ -24,16 +24,16 @@ function App() {
       if (name.includes("office")) {
         setResults([
           "This is the speaking rate you should use 150-160 wpm for more engagement",
-          "Increase the length of the video. Minimum 5 - 6 min",
+          "Decrease the length of the video. Minimum 7 - 10 min",
           "Dim the lighting"
         ])
         var randomnumber = (Math.random() * (70 - 65 + 1)) + 65;
         setFinalLikable(randomnumber)
       
-      }else if (name.includes('childrens')) {
+      }else if (name.includes('java')) {
         setResults([
           "This is the speaking rate you should use 120-140 wpm for more engagement",
-          "Increase the length of the video. Minimum 2 - 3 min",
+          "Decrease pitch",
         ])
         var randomnumber = (Math.random() * (50 - 60 + 1)) + 60;
         setFinalLikable(randomnumber)
@@ -52,7 +52,7 @@ function App() {
     setTimeout(() => {
       setUploadVideo(true)
 
-    }, 1000)
+    }, 10000)
   }
 
   console.log(finalLikabe)
