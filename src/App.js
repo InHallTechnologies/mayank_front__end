@@ -29,6 +29,7 @@ function App() {
         ])
         var randomnumber = (Math.random() * (70 - 65 + 1)) + 65;
         setFinalLikable(randomnumber)
+      
       }else if (name.includes('childrens')) {
         setResults([
           "This is the speaking rate you should use 120-140 wpm for more engagement",
@@ -53,6 +54,8 @@ function App() {
 
     }, 1000)
   }
+
+  console.log(finalLikabe)
 
   useEffect(() => {
     if (uploadVideo){
@@ -100,7 +103,7 @@ function App() {
         (showRsult)
         ?
         <>
-          <p>The video is 73.6% likable to user</p>
+          <p>The video is {finalLikabe}% likable to user</p>
           <Button onClick={_ => setShowSuggestion(true)}>Give Suggestion</Button>
           {
             showSuggestion
